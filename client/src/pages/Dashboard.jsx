@@ -217,7 +217,24 @@ function Dashboard() {
           <p className="text-slate-400 text-sm font-medium mt-1">Manage your scores, winnings, and impact.</p>
         </motion.div>
 
-        {!isSubscribed && (
+        {isSubscribed ? (
+          <motion.div 
+            variants={itemVariants}
+            className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-between gap-6 shadow-[0_0_20px_rgba(16,185,129,0.1)] backdrop-blur-md"
+          >
+            <p className="text-xs font-bold text-emerald-400">
+              {user?.subscription_plan === "monthly" ? "⚡ Monthly Member: Save 20% on Yearly!" : "💎 Premium Yearly Member"}
+            </p>
+            {user?.subscription_plan === "monthly" && (
+              <button
+                onClick={() => navigate("/subscribe")}
+                className="bg-emerald-500 text-slate-950 px-4 py-2 rounded-xl text-xs font-black tracking-wide hover:scale-105 transition-all shadow-lg"
+              >
+                Upgrade to Yearly
+              </button>
+            )}
+          </motion.div>
+        ) : (
           <motion.div 
             variants={itemVariants}
             className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-2xl flex items-center justify-between gap-6 shadow-[0_0_20px_rgba(234,179,8,0.1)] backdrop-blur-md"

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -12,8 +13,9 @@ function Home() {
     if (token && userStr) {
       setIsLoggedIn(true);
       try {
-        const user = JSON.parse(userStr);
-        setIsSubscribed(user.subscription_status === "active");
+        const userData = JSON.parse(userStr);
+        setUser(userData);
+        setIsSubscribed(userData.subscription_status === "active");
       } catch (e) {
         console.error("Error parsing user data");
       }
@@ -248,13 +250,23 @@ function Home() {
         className="py-28 px-6 text-center mt-12 relative z-10 overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/40 to-slate-950 -z-10"></div>
-        <h2 className="text-4xl md:text-5xl font-black mb-10 tracking-tight text-white">Start your subscription <br/> today.</h2>
+        <h2 className="text-4xl md:text-5xl font-black mb-10 tracking-tight text-white">
+          {isSubscribed ? (
+            user?.subscription_plan === "yearly" ? 
+            "Your legacy is secure. <br/> Review your yearly impact." : 
+            "Your journey continues <br/> here."
+          ) : "Start your subscription <br/> today."}
+        </h2>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Link
-            to="/subscribe"
-            className="inline-block bg-white text-slate-950 px-12 py-5 rounded-2xl font-black text-lg md:text-xl shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300"
+            to={isSubscribed ? "/dashboard" : "/subscribe"}
+            className={`inline-block px-12 py-5 rounded-2xl font-black text-lg md:text-xl transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] ${
+              isSubscribed && user?.subscription_plan === "yearly" ? 
+              "bg-gradient-to-r from-emerald-400 to-cyan-500 text-slate-950" : 
+              "bg-white text-slate-950"
+            }`}
           >
-            Subscribe Now
+            {isSubscribed ? (user?.subscription_plan === "yearly" ? "💎 PREMIUM DASHBOARD" : "View Your Impact") : "Subscribe Now"}
           </Link>
         </motion.div>
       </motion.section>
