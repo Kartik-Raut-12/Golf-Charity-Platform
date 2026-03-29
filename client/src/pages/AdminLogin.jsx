@@ -51,13 +51,13 @@ function AdminLogin() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
           </div>
-          <h1 className="text-3xl font-black text-white tracking-tight mb-2 uppercase italic">Admin <span className="text-emerald-400">Portal</span></h1>
-          <p className="text-slate-500 text-sm font-bold tracking-widest uppercase">Secure Staff Entry Only</p>
+          <h1 className="text-3xl font-black text-white tracking-tight mb-2 uppercase italic">Admin <span className="text-emerald-400">Panel</span></h1>
+          <p className="text-slate-500 text-sm font-bold tracking-widest uppercase">Authorized Administrator Access</p>
         </div>
 
         <form onSubmit={handleAdminLogin} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-4">Staff Email</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-4">Admin Email</label>
             <input
               type="email"
               placeholder="admin@platform.com"
@@ -69,7 +69,7 @@ function AdminLogin() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-4">Security Key</label>
+            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-4">Credentials</label>
             <input
               type="password"
               placeholder="••••••••"
@@ -89,7 +89,7 @@ function AdminLogin() {
               <div className="w-5 h-5 border-2 border-slate-950/20 border-t-slate-950 rounded-full animate-spin" />
             ) : (
               <>
-                AUTHENTICATE
+                SIGN IN
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </>
             )}
@@ -98,7 +98,7 @@ function AdminLogin() {
 
         <div className="mt-8 text-center">
           <Link to="/" className="text-slate-600 hover:text-white text-[10px] font-black uppercase tracking-widest transition-colors">
-            Exit Portal
+            Exit Admin Panel
           </Link>
         </div>
       </motion.div>
