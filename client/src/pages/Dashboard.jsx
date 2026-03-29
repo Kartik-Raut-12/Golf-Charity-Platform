@@ -99,13 +99,18 @@ function Dashboard() {
 
     try {
       setLoading(true);
-      await api.post(
+      const res = await api.post(
         "/score/add",
         { score: Number(score), played_at: playedAt },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      toast.success("Score added successfully");
+      if (res.data.pruned) {
+        toast.error(res.data.message, { duration: 5000 });
+      } else {
+        toast.success("Score recorded in Ledger!");
+      }
+      
       setScore("");
       setPlayedAt("");
       fetchScores();

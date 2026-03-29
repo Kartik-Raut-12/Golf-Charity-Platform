@@ -38,18 +38,32 @@ export const addScore = async (req, res) => {
 
     if (fetchError) return res.status(500).json({ message: fetchError.message });
 
+    let wasPruned = false;
     if (allScores.length > 5) {
       // Identify all IDs that are NOT in the Top 5
       const idsToDelete = allScores.slice(5).map(s => s.id);
       
+      // Check if our NEW score is one of the ones being deleted
+      if (idsToDelete.includes(insertedData[0].id)) {
+        wasPruned = true;
+      }
+
       await supabase
         .from("scores")
         .delete()
         .in("id", idsToDelete);
     }
 
+    if (wasPruned) {
+      return res.status(200).json({
+        message: "Your entry is older than your current Top 5 and was not added to the Ledger.",
+        data: insertedData,
+        pruned: true
+      });
+    }
+
     return res.status(201).json({
-      message: "Ledger updated with latest performance",
+      message: "Score recorded in Ledger successfully",
       data: insertedData,
     });
   } catch (error) {
