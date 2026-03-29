@@ -362,14 +362,14 @@ function Dashboard() {
              <p className="text-slate-400 font-medium text-sm">Review your draw match history and approved payouts.</p>
            </div>
            
-           <div className="flex gap-4">
-              <div className="bg-slate-950/60 p-6 rounded-3xl border border-slate-800 min-w-[140px] text-center shadow-inner">
-                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Total Rewards</p>
-                 <p className="text-3xl font-black text-emerald-400">₹{totalWon.toLocaleString()}</p>
+           <div className="grid grid-cols-2 sm:flex gap-4 w-full sm:w-auto">
+              <div className="bg-slate-950/60 p-4 sm:p-6 rounded-3xl border border-slate-800 flex-1 sm:min-w-[140px] text-center shadow-inner">
+                 <p className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Total Rewards</p>
+                 <p className="text-xl sm:text-3xl font-black text-emerald-400">₹{totalWon.toLocaleString()}</p>
               </div>
-              <div className="bg-slate-950/60 p-6 rounded-3xl border border-slate-800 min-w-[140px] text-center shadow-inner">
-                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Awaiting Payout</p>
-                 <p className="text-3xl font-black text-yellow-500">₹{pendingWon.toLocaleString()}</p>
+              <div className="bg-slate-950/60 p-4 sm:p-6 rounded-3xl border border-slate-800 flex-1 sm:min-w-[140px] text-center shadow-inner">
+                 <p className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Awaiting Payout</p>
+                 <p className="text-xl sm:text-3xl font-black text-yellow-500">₹{pendingWon.toLocaleString()}</p>
               </div>
            </div>
         </div>
@@ -393,24 +393,26 @@ function Dashboard() {
                       </div>
                    </div>
 
-                   <div className="flex flex-wrap items-center gap-4">
-                      <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${getStatusColor(w.verification_status)}`}>
-                        {w.verification_status}
-                      </span>
-                      <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${getStatusColor(w.payment_status)}`}>
-                        {w.payment_status}
-                      </span>
+                   <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full md:w-auto">
+                      <div className="flex gap-2 w-full sm:w-auto">
+                        <span className={`flex-1 sm:flex-none text-center px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${getStatusColor(w.verification_status)}`}>
+                          {w.verification_status}
+                        </span>
+                        <span className={`flex-1 sm:flex-none text-center px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${getStatusColor(w.payment_status)}`}>
+                          {w.payment_status}
+                        </span>
+                      </div>
 
                       {w.proof_url ? (
-                        <a href={w.proof_url} target="_blank" rel="noreferrer" className="ml-4 bg-slate-800 border border-slate-700 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition-all shadow-sm">View Proof</a>
+                        <a href={w.proof_url} target="_blank" rel="noreferrer" className="w-full sm:w-auto text-center bg-slate-800 border border-slate-700 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-700 transition-all shadow-sm">View Proof</a>
                       ) : (
-                        <div className="flex gap-2 ml-4">
-                           <label className="bg-slate-950 border border-slate-800 text-slate-400 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest cursor-pointer hover:border-slate-600 transition-all">
+                        <div className="flex gap-2 w-full sm:w-auto">
+                           <label className="flex-1 text-center bg-slate-950 border border-slate-800 text-slate-400 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest cursor-pointer hover:border-slate-600 transition-all">
                               Upload Slip
                               <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileChange(w.id, e.target.files[0])} />
                            </label>
                            {selectedFiles[w.id] && (
-                             <button onClick={() => handleProofUpload(w.id)} className="bg-cyan-500 text-slate-950 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest animate-pulse shadow-[0_0_15px_rgba(6,182,212,0.4)]">Go</button>
+                             <button onClick={() => handleProofUpload(w.id)} className="bg-cyan-500 text-slate-950 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest animate-pulse shadow-[0_0_15px_rgba(6,182,212,0.4)]">Go</button>
                            )}
                         </div>
                       )}

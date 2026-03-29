@@ -26,7 +26,7 @@ function Charities() {
       const card = scrollRef.current.firstElementChild;
       if (card) {
         const cardWidth = card.offsetWidth;
-        const gap = 32;
+        const gap = window.innerWidth < 768 ? 16 : 32;
         const scrollAmount = cardWidth + gap;
         scrollRef.current.scrollBy({
           left: direction === "left" ? -scrollAmount : scrollAmount,
@@ -170,12 +170,12 @@ function Charities() {
         <div
           ref={scrollRef}
           onScroll={checkScroll}
-          className="flex gap-8 overflow-x-auto scroll-smooth pb-12 pt-4 no-scrollbar snap-x snap-mandatory"
+          className="flex gap-4 md:gap-8 overflow-x-auto scroll-smooth pb-12 pt-4 no-scrollbar snap-x snap-mandatory"
         >
           {charities.map((charity) => (
             <div
               key={charity.id}
-              className={`flex-none w-[calc((100%-64px)/3)] snap-start glass-card flex flex-col rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 transform hover:-translate-y-2 relative group z-10 ${
+              className={`flex-none w-[85%] sm:w-[calc((100%-48px)/2)] lg:w-[calc((100%-64px)/3)] snap-start glass-card flex flex-col rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 transform hover:-translate-y-2 relative group z-10 ${
                 selectedCharity === charity.id
                   ? "border-emerald-500/60 shadow-[0_0_30px_rgba(16,185,129,0.2)] bg-emerald-500/10 ring-2 ring-emerald-500/20"
                   : "border-slate-700/50 hover:border-emerald-500/30 bg-slate-900/40 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)]"

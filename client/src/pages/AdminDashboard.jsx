@@ -349,27 +349,29 @@ function AdminDashboard() {
         </h1>
         
         {/* Horizontal Tab Bar */}
-        <div className="flex p-1 bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-x-auto no-scrollbar">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`relative px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 whitespace-nowrap ${
-                activeTab === tab.id 
-                  ? "text-emerald-400" 
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <span className="relative z-10">{tab.label}</span>
-              {activeTab === tab.id && (
-                <motion.div
-                  layoutId="active-pill"
-                  className="absolute inset-0 bg-emerald-500/10 border border-emerald-500/20 rounded-xl"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
-            </button>
-          ))}
+        <div className="flex p-1 bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-x-auto no-scrollbar scroll-smooth">
+          <div className="flex min-w-max">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 whitespace-nowrap ${
+                  activeTab === tab.id 
+                    ? "text-emerald-400" 
+                    : "text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                <span className="relative z-10">{tab.label}</span>
+                {activeTab === tab.id && (
+                  <motion.div
+                    layoutId="active-pill"
+                    className="absolute inset-0 bg-emerald-500/10 border border-emerald-500/20 rounded-xl"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -385,31 +387,31 @@ function AdminDashboard() {
             <div className="glass-card p-6 sm:p-8 rounded-3xl group">
               <h2 className="text-2xl font-bold mb-6 text-white tracking-tight">Platform Analytics</h2>
               {stats && (
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                   <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-blue-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-blue-400/80 text-xs font-black uppercase tracking-widest mb-2">Total Revenue</p>
-                    <p className="font-black text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-lg text-blue-400">₹</span>{stats.totalRevenue?.toLocaleString()}
+                    <p className="text-blue-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Total Revenue</p>
+                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
+                      <span className="text-sm md:text-lg text-blue-400">₹</span>{stats.totalRevenue?.toLocaleString()}
                     </p>
                   </div>
                   <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-emerald-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-emerald-400/80 text-xs font-black uppercase tracking-widest mb-2">Total Donated</p>
-                    <p className="font-black text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-lg text-emerald-400">₹</span>{stats.totalCharityContribution?.toLocaleString()}
+                    <p className="text-emerald-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Total Donated</p>
+                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
+                      <span className="text-sm md:text-lg text-emerald-400">₹</span>{stats.totalCharityContribution?.toLocaleString()}
                     </p>
                   </div>
                   <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-cyan-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-cyan-400/80 text-xs font-black uppercase tracking-widest mb-2">Total Paid Winnings</p>
-                    <p className="font-black text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-lg text-cyan-400">₹</span>{stats.totalPrizePool?.toLocaleString()}
+                    <p className="text-cyan-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Total Paid Winnings</p>
+                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
+                      <span className="text-sm md:text-lg text-cyan-400">₹</span>{stats.totalPrizePool?.toLocaleString()}
                     </p>
                   </div>
                   <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-slate-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-slate-500 text-xs font-black uppercase tracking-widest mb-2">Active Users</p>
-                    <p className="font-black text-3xl text-white flex items-baseline gap-1">
+                    <p className="text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Active Users</p>
+                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
                       <span className="text-emerald-400">{stats.activeUsers}</span>
                       <span className="text-slate-600 text-xl font-medium mx-1">/</span>
-                      <span className="text-slate-500 text-2xl">{stats.totalUsers}</span>
+                      <span className="text-slate-500 text-xl md:text-2xl">{stats.totalUsers}</span>
                     </p>
                   </div>
                 </div>
@@ -461,41 +463,41 @@ function AdminDashboard() {
                          Simulation Results
                       </h3>
                       
-                      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                         <div className="bg-slate-950/50 p-6 rounded-2xl border border-slate-700/50 shadow-inner col-span-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+                         <div className="bg-slate-950/50 p-6 rounded-2xl border border-slate-700/50 shadow-inner col-span-1 sm:col-span-2">
                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Winning Numbers</p>
-                           <div className="flex gap-4">
+                           <div className="flex flex-wrap gap-2 sm:gap-4">
                              {drawSimResult.drawNumbers.map((num, i) => (
-                               <span key={i} className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-600 text-white flex items-center justify-center font-black text-xl shadow-[0_0_15px_rgba(16,185,129,0.4)] border border-emerald-300/30">{num}</span>
+                               <span key={i} className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-600 text-white flex items-center justify-center font-black text-lg sm:text-xl shadow-[0_0_15px_rgba(16,185,129,0.4)] border border-emerald-300/30">{num}</span>
                              ))}
                            </div>
                          </div>
                          <div className="glass-panel p-6 rounded-2xl">
                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Prize Pool</p>
-                           <p className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-3xl mb-2">₹{drawSimResult.prizePool.totalPool}</p>
-                           {drawSimResult.prizePool.rolloverApplied > 0 && <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded-md font-bold shadow-sm">Includes ₹{drawSimResult.prizePool.rolloverApplied} Rollover</span>}
+                           <p className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-2xl sm:text-3xl mb-2">₹{drawSimResult.prizePool.totalPool}</p>
+                           {drawSimResult.prizePool.rolloverApplied > 0 && <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded-md font-bold shadow-sm">Includes ₹{drawSimResult.prizePool.rolloverApplied} Rollover</span>}
                          </div>
                          <div className="glass-panel p-6 rounded-2xl border-yellow-500/20 shadow-[0_0_20px_rgba(234,179,8,0.05)]">
                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Rollover Amount</p>
-                           <p className="font-black text-yellow-400 text-3xl">₹{drawSimResult.unspentRollover}</p>
-                           <p className="text-xs text-yellow-500/70 font-bold uppercase tracking-wider mt-2">Added to next month's pool</p>
+                           <p className="font-black text-yellow-400 text-2xl sm:text-3xl">₹{drawSimResult.unspentRollover}</p>
+                           <p className="text-[10px] text-yellow-500/70 font-bold uppercase tracking-wider mt-2">Added to next month's pool</p>
                          </div>
                       </div>
 
-                      <div className="glass-card flex flex-wrap gap-6 p-6 rounded-2xl justify-around text-center border border-slate-700">
-                         <div className="flex-1 min-w-[120px]">
-                            <h4 className="text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners5}</h4>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Jackpot Hits</p>
+                      <div className="glass-card grid grid-cols-1 sm:grid-cols-3 gap-6 p-6 rounded-2xl border border-slate-700">
+                         <div className="text-center">
+                            <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners5}</h4>
+                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Jackpot Hits</p>
                          </div>
-                         <div className="hidden md:block w-px bg-slate-700"></div>
-                         <div className="flex-1 min-w-[120px]">
-                            <h4 className="text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners4}</h4>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 2 Matches</p>
+                         <div className="hidden sm:block w-px h-full bg-slate-700 mx-auto"></div>
+                         <div className="text-center">
+                            <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners4}</h4>
+                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 2 Matches</p>
                          </div>
-                         <div className="hidden md:block w-px bg-slate-700"></div>
-                         <div className="flex-1 min-w-[120px]">
-                            <h4 className="text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners3}</h4>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 3 Matches</p>
+                         <div className="hidden sm:block w-px h-full bg-slate-700 mx-auto"></div>
+                         <div className="text-center">
+                            <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners3}</h4>
+                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 3 Matches</p>
                          </div>
                       </div>
                    </div>
@@ -507,24 +509,24 @@ function AdminDashboard() {
                 {drawHistory.length === 0 ? (
                   <p className="text-slate-500 bg-slate-900/50 rounded-xl p-6 border border-slate-800 text-center font-medium">Ledger is completely empty.</p>
                 ) : (
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                     {drawHistory.map((draw) => (
-                      <div key={draw.id} className="border border-slate-700/50 bg-slate-900/40 p-6 rounded-2xl hover:bg-slate-800/60 hover:border-slate-600 transition-colors">
+                      <div key={draw.id} className="border border-slate-700/50 bg-slate-900/40 p-5 sm:p-6 rounded-2xl hover:bg-slate-800/60 hover:border-slate-600 transition-colors group">
                         <div className="flex justify-between items-center border-b border-slate-700/50 pb-4 mb-4">
-                           <h3 className="font-extrabold text-white text-lg">{draw.draw_month} {draw.draw_year}</h3>
+                           <h3 className="font-extrabold text-white text-base sm:text-lg">{draw.draw_month} {draw.draw_year}</h3>
                            <span className={`px-3 py-1 rounded-md text-[10px] font-black tracking-widest uppercase shadow-sm ${draw.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'}`}>{draw.status}</span>
                         </div>
-                        <p className="text-sm text-slate-400 mb-3 font-medium">
-                          <strong className="text-slate-500 font-black uppercase tracking-widest text-[10px]">Winning Numbers:</strong>
-                        </p>
-                        <div className="flex gap-3 mb-6">
-                          {draw.winning_numbers?.map((num, i) => (
-                            <span key={i} className="w-10 h-10 rounded-full bg-slate-800 text-slate-300 border border-slate-600 flex items-center justify-center font-black text-sm shadow-inner">{num}</span>
-                          ))}
+                        <div className="mb-6">
+                          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Winning Numbers</p>
+                          <div className="flex flex-wrap gap-2">
+                            {draw.winning_numbers?.map((num, i) => (
+                              <span key={i} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-800 text-slate-300 border border-slate-600 flex items-center justify-center font-black text-xs sm:text-sm shadow-inner group-hover:border-emerald-500/30 transition-colors">{num}</span>
+                            ))}
+                          </div>
                         </div>
-                        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 shadow-inner flex justify-between items-center">
-                           <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Prize Pool</span>
-                           <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-xl">₹{draw.prize_pools?.[0]?.total_pool || 0}</span>
+                        <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-800 shadow-inner flex justify-between items-center">
+                           <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Prize Pool</span>
+                           <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-lg sm:text-xl">₹{draw.prize_pools?.[0]?.total_pool || 0}</span>
                         </div>
                       </div>
                     ))}

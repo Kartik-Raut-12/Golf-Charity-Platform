@@ -47,7 +47,7 @@ function Home() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: "spring", damping: 25, stiffness: 120, delay: 0.05 }}
-          className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+          className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter text-white mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] leading-[1.1]"
         >
           Welcome to the <br/><span className="neon-text-gradient italic">Golf Charity Platform</span>
         </motion.h1>

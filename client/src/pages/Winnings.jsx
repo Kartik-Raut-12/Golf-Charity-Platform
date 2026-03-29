@@ -95,21 +95,21 @@ function Winnings() {
       variants={containerVariants}
       className="p-6 max-w-6xl mx-auto min-h-screen font-sans relative z-10 mt-4 space-y-12 pb-20"
     >
-      <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-start md:items-center justify-between">
+      <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
           <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow-lg mb-2">
             Monthly <span className="neon-text-gradient">Draws</span>
           </h1>
           <p className="text-slate-400 md:text-lg font-medium">Review the official ledger and your personal victories.</p>
         </div>
-        <div className="mt-8 md:mt-0 flex gap-4">
-           <div className="bg-slate-950/60 p-6 rounded-3xl border border-slate-800 min-w-[140px] text-center shadow-inner">
+        <div className="grid grid-cols-2 sm:flex gap-4 w-full sm:w-auto">
+           <div className="bg-slate-950/60 p-4 sm:p-6 rounded-3xl border border-slate-800 flex-1 sm:min-w-[140px] text-center shadow-inner">
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">My Total Payout</p>
-              <p className="text-3xl font-black text-emerald-400">₹{totalWon.toLocaleString()}</p>
+              <p className="text-2xl sm:text-3xl font-black text-emerald-400">₹{totalWon.toLocaleString()}</p>
            </div>
-           <div className="bg-slate-950/60 p-6 rounded-3xl border border-slate-800 min-w-[140px] text-center shadow-inner">
+           <div className="bg-slate-950/60 p-4 sm:p-6 rounded-3xl border border-slate-800 flex-1 sm:min-w-[140px] text-center shadow-inner">
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">My Total Wins</p>
-              <p className="text-3xl font-black text-cyan-400">{myWinnings.length}</p>
+              <p className="text-2xl sm:text-3xl font-black text-cyan-400">{myWinnings.length}</p>
            </div>
         </div>
       </motion.div>
