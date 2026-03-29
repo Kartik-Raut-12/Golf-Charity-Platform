@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 
 function Footer() {
+  const isLoggedIn = !!localStorage.getItem("token");
+
   return (
     <footer className="relative z-10 border-t border-white/5 bg-slate-950/50 backdrop-blur-xl py-12 mt-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -17,16 +19,18 @@ function Footer() {
             </p>
           </div>
 
-          <div>
-            <h4 className="text-xs font-black text-white uppercase tracking-widest mb-6">Platform</h4>
-            <ul className="space-y-4">
-              <li><Link to="/charities" className="text-slate-500 hover:text-emerald-400 text-sm font-bold transition-colors">Charities</Link></li>
-              <li><Link to="/winnings" className="text-slate-500 hover:text-emerald-400 text-sm font-bold transition-colors">Winnings</Link></li>
-              <li><Link to="/subscribe" className="text-slate-500 hover:text-emerald-400 text-sm font-bold transition-colors">Pricing</Link></li>
-            </ul>
-          </div>
+          {isLoggedIn && (
+            <div>
+              <h4 className="text-xs font-black text-white uppercase tracking-widest mb-6">Platform</h4>
+              <ul className="space-y-4">
+                <li><Link to="/charities" className="text-slate-500 hover:text-emerald-400 text-sm font-bold transition-colors">Charities</Link></li>
+                <li><Link to="/winnings" className="text-slate-500 hover:text-emerald-400 text-sm font-bold transition-colors">Winnings</Link></li>
+                <li><Link to="/subscribe" className="text-slate-500 hover:text-emerald-400 text-sm font-bold transition-colors">Pricing</Link></li>
+              </ul>
+            </div>
+          )}
 
-          <div>
+          <div className={isLoggedIn ? "" : "col-span-2 md:col-span-1"}>
             <h4 className="text-xs font-black text-white uppercase tracking-widest mb-6">Legal</h4>
             <ul className="space-y-4">
               <li><Link to="/terms" className="text-slate-500 hover:text-emerald-400 text-sm font-bold transition-colors">Rules of Play</Link></li>
