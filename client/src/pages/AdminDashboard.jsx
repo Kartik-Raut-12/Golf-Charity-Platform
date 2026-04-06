@@ -11,6 +11,7 @@ function AdminDashboard() {
   const [drawHistory, setDrawHistory] = useState([]);
   const [loadingDraw, setLoadingDraw] = useState(false);
   const [drawSimResult, setDrawSimResult] = useState(null);
+  const [drawAlgorithm, setDrawAlgorithm] = useState("algorithmic");
   const [currentUser, setCurrentUser] = useState(null);
 
   const [charities, setCharities] = useState([]);
@@ -67,7 +68,7 @@ function AdminDashboard() {
       const token = localStorage.getItem("token");
       const res = await api.post("/admin/draws/run", {
         simulate: true,
-        algorithmType: 'weighted',
+        algorithmType: drawAlgorithm,
         forceNumbers: null
       }, {
         headers: { Authorization: `Bearer ${token}` },
@@ -87,7 +88,7 @@ function AdminDashboard() {
       const token = localStorage.getItem("token");
       await api.post("/admin/draws/run", {
         simulate: false,
-        algorithmType: 'weighted',
+        algorithmType: drawAlgorithm,
         forceNumbers: null
       }, {
         headers: { Authorization: `Bearer ${token}` },
@@ -168,7 +169,7 @@ function AdminDashboard() {
         console.error("Failed to refresh session profile");
       }
     };
-    
+
     fetchCurrentProfile();
     fetchWinnerRequests();
     fetchUsers();
@@ -329,9 +330,9 @@ function AdminDashboard() {
     try {
       const scoreObj = userScores.find(s => s.id === scoreId);
       const token = localStorage.getItem("token");
-      await api.put(`/admin/scores/${scoreId}`, { 
-        score: Number(newScore), 
-        played_at: scoreObj.played_at 
+      await api.put(`/admin/scores/${scoreId}`, {
+        score: Number(newScore),
+        played_at: scoreObj.played_at
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -348,7 +349,7 @@ function AdminDashboard() {
         <h1 className="text-4xl font-black text-white tracking-tight drop-shadow-lg">
           Admin <span className="neon-text-gradient">Dashboard</span>
         </h1>
-        
+
         {/* Horizontal Tab Bar */}
         <div className="flex p-1 bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 shadow-2xl overflow-x-auto no-scrollbar scroll-smooth">
           <div className="flex min-w-max">
@@ -356,11 +357,10 @@ function AdminDashboard() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 whitespace-nowrap ${
-                  activeTab === tab.id 
-                    ? "text-emerald-400" 
+                className={`relative px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 whitespace-nowrap ${activeTab === tab.id
+                    ? "text-emerald-400"
                     : "text-slate-400 hover:text-slate-200"
-                }`}
+                  }`}
               >
                 <span className="relative z-10">{tab.label}</span>
                 {activeTab === tab.id && (
@@ -426,47 +426,47 @@ function AdminDashboard() {
 
               {/* Section 11: Draw Insights & Participation Board */}
               <div className="mt-12 space-y-6">
-                 <h3 className="text-lg font-black text-white uppercase tracking-widest flex items-center gap-2">
-                   <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                   Draw Participation Insights
-                 </h3>
-                 
-                 <div className="grid lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2 bg-slate-950/40 border border-slate-800 rounded-3xl p-8 shadow-inner">
-                       <div className="flex items-center justify-between mb-8">
-                          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Historical Success Trend</p>
-                          <span className="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1 rounded-lg font-black tracking-[0.1em]">Verified Draws Only</span>
-                       </div>
-                       
-                       <div className="space-y-6">
-                          {drawHistory.slice(0, 3).length > 0 ? drawHistory.slice(0, 3).map((draw, idx) => (
-                            <div key={idx} className="relative">
-                               <div className="flex justify-between mb-2">
-                                  <span className="text-xs font-black text-white uppercase tracking-tight">{draw.draw_month} {draw.draw_year}</span>
-                                  <span className="text-xs font-bold text-emerald-400">Impact Verified</span>
-                               </div>
-                               <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-                                  <motion.div 
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${80 - (idx * 20)}%` }}
-                                    className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
-                                  />
-                               </div>
-                            </div>
-                          )) : (
-                            <p className="text-xs font-bold text-slate-600 uppercase tracking-widest italic text-center py-4">Awaiting statistical history...</p>
-                          )}
-                       </div>
+                <h3 className="text-lg font-black text-white uppercase tracking-widest flex items-center gap-2">
+                  <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                  Draw Participation Insights
+                </h3>
+
+                <div className="grid lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2 bg-slate-950/40 border border-slate-800 rounded-3xl p-8 shadow-inner">
+                    <div className="flex items-center justify-between mb-8">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Historical Success Trend</p>
+                      <span className="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1 rounded-lg font-black tracking-[0.1em]">Verified Draws Only</span>
                     </div>
-                    
-                    <div className="bg-slate-950/40 border border-slate-800 rounded-3xl p-8 flex flex-col justify-center items-center text-center shadow-inner group-hover:border-emerald-500/20 transition-all">
-                       <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
-                          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                       </div>
-                       <h4 className="text-2xl font-black text-white mb-2">{stats ? ((stats.activeUsers / stats.totalUsers) * 100 || 0).toFixed(1) : "0"}%</h4>
-                       <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Active Retention Rate</p>
+
+                    <div className="space-y-6">
+                      {drawHistory.slice(0, 3).length > 0 ? drawHistory.slice(0, 3).map((draw, idx) => (
+                        <div key={idx} className="relative">
+                          <div className="flex justify-between mb-2">
+                            <span className="text-xs font-black text-white uppercase tracking-tight">{draw.draw_month} {draw.draw_year}</span>
+                            <span className="text-xs font-bold text-emerald-400">Impact Verified</span>
+                          </div>
+                          <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${80 - (idx * 20)}%` }}
+                              className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                            />
+                          </div>
+                        </div>
+                      )) : (
+                        <p className="text-xs font-bold text-slate-600 uppercase tracking-widest italic text-center py-4">Awaiting statistical history...</p>
+                      )}
                     </div>
-                 </div>
+                  </div>
+
+                  <div className="bg-slate-950/40 border border-slate-800 rounded-3xl p-8 flex flex-col justify-center items-center text-center shadow-inner group-hover:border-emerald-500/20 transition-all">
+                    <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    </div>
+                    <h4 className="text-2xl font-black text-white mb-2">{stats ? ((stats.activeUsers / stats.totalUsers) * 100 || 0).toFixed(1) : "0"}%</h4>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Active Retention Rate</p>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -481,70 +481,84 @@ function AdminDashboard() {
                     <p className="text-sm text-slate-400 font-medium">Run simulations or execute the official monthly draw.</p>
                   </div>
                   <div className="mt-6 sm:mt-0 flex flex-wrap gap-4 items-center">
+                    <div className="flex bg-slate-900/50 rounded-xl p-1 border border-slate-700/50 mr-2 shadow-inner">
                       <button
-                        onClick={handleSimulateDraw}
-                        disabled={loadingDraw}
-                        className="bg-slate-800 border border-slate-700 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                        onClick={() => setDrawAlgorithm('random')}
+                        className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${drawAlgorithm === 'random' ? 'bg-slate-700 text-white shadow-md border border-slate-600' : 'text-slate-400 hover:text-slate-200'}`}
                       >
-                        {loadingDraw && !drawSimResult ? "Compiling..." : "Run Simulation"}
+                        Random
                       </button>
-                     {drawSimResult && (
-                       <button
-                         onClick={handlePublishDraw}
-                         disabled={loadingDraw}
-                         className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 px-8 py-3 rounded-xl font-black tracking-wide hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                       >
-                         Publish Officially
-                       </button>
-                     )}
+                      <button
+                        onClick={() => setDrawAlgorithm('algorithmic')}
+                        className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${drawAlgorithm === 'algorithmic' ? 'bg-slate-700 text-white shadow-md border border-slate-600' : 'text-slate-400 hover:text-slate-200'}`}
+                      >
+                        Algorithmic
+                      </button>
+                    </div>
+                    <button
+                      onClick={handleSimulateDraw}
+                      disabled={loadingDraw}
+                      className="bg-slate-800 border border-slate-700 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-700 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    >
+                      {loadingDraw && !drawSimResult ? "Compiling..." : "Run Simulation"}
+                    </button>
+                    {drawSimResult && (
+                      <button
+                        onClick={handlePublishDraw}
+                        disabled={loadingDraw}
+                        className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 px-8 py-3 rounded-xl font-black tracking-wide hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      >
+                        Publish Officially
+                      </button>
+                    )}
                   </div>
                 </div>
 
                 {drawSimResult && (
-                   <div className="bg-slate-900/60 rounded-2xl border border-emerald-500/30 p-6 sm:p-8 mt-8 shadow-[inset_0_0_30px_rgba(16,185,129,0.05)] relative z-10 animate-fade-in-up">
-                      <h3 className="font-bold text-white mb-6 flex items-center gap-3 text-lg">
-                         <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
-                         Simulation Results
-                      </h3>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-                         <div className="bg-slate-950/50 p-6 rounded-2xl border border-slate-700/50 shadow-inner col-span-1 sm:col-span-2">
-                           <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Winning Numbers</p>
-                           <div className="flex flex-wrap gap-2 sm:gap-4">
-                             {drawSimResult.drawNumbers.map((num, i) => (
-                               <span key={i} className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-600 text-white flex items-center justify-center font-black text-lg sm:text-xl shadow-[0_0_15px_rgba(16,185,129,0.4)] border border-emerald-300/30">{num}</span>
-                             ))}
-                           </div>
-                         </div>
-                         <div className="glass-panel p-6 rounded-2xl">
-                           <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Prize Pool</p>
-                           <p className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-2xl sm:text-3xl mb-2">₹{(Number(drawSimResult.prizePool?.totalPool) || 0).toFixed(2)}</p>
-                           {drawSimResult.prizePool.rolloverApplied > 0 && <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded-md font-bold shadow-sm">Includes ₹{(Number(drawSimResult.prizePool?.rolloverApplied) || 0).toFixed(2)} Rollover</span>}
-                         </div>
-                         <div className="glass-panel p-6 rounded-2xl border-yellow-500/20 shadow-[0_0_20px_rgba(234,179,8,0.05)]">
-                           <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Rollover Amount</p>
-                           <p className="font-black text-yellow-400 text-2xl sm:text-3xl">₹{(Number(drawSimResult.unspentRollover) || 0).toFixed(2)}</p>
-                           <p className="text-[10px] text-yellow-500/70 font-bold uppercase tracking-wider mt-2">Added to next month's pool</p>
-                         </div>
-                      </div>
+                  <div className="bg-slate-900/60 rounded-2xl border border-emerald-500/30 p-6 sm:p-8 mt-8 shadow-[inset_0_0_30px_rgba(16,185,129,0.05)] relative z-10 animate-fade-in-up">
+                    <h3 className="font-bold text-white mb-6 flex items-center gap-3 text-lg">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                      Simulation Results
+                    </h3>
 
-                      <div className="glass-card grid grid-cols-1 sm:grid-cols-3 gap-6 p-6 rounded-2xl border border-slate-700">
-                         <div className="text-center">
-                            <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners5}</h4>
-                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Jackpot Hits</p>
-                         </div>
-                         <div className="hidden sm:block w-px h-full bg-slate-700 mx-auto"></div>
-                         <div className="text-center">
-                            <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners4}</h4>
-                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 2 Matches</p>
-                         </div>
-                         <div className="hidden sm:block w-px h-full bg-slate-700 mx-auto"></div>
-                         <div className="text-center">
-                            <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners3}</h4>
-                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 3 Matches</p>
-                         </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+                      <div className="bg-slate-950/50 p-6 rounded-2xl border border-slate-700/50 shadow-inner col-span-1 sm:col-span-2">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Winning Numbers</p>
+                        <div className="flex flex-wrap gap-2 sm:gap-4">
+                          {drawSimResult.drawNumbers.map((num, i) => (
+                            <span key={i} className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-600 text-white flex items-center justify-center font-black text-lg sm:text-xl shadow-[0_0_15px_rgba(16,185,129,0.4)] border border-emerald-300/30">{num}</span>
+                          ))}
+                        </div>
                       </div>
-                   </div>
+                      <div className="glass-panel p-6 rounded-2xl">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Prize Pool</p>
+                        <p className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-2xl sm:text-3xl mb-2">₹{(Number(drawSimResult.prizePool?.totalPool) || 0).toFixed(2)}</p>
+                        {drawSimResult.prizePool.rolloverApplied > 0 && <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded-md font-bold shadow-sm">Includes ₹{(Number(drawSimResult.prizePool?.rolloverApplied) || 0).toFixed(2)} Rollover</span>}
+                      </div>
+                      <div className="glass-panel p-6 rounded-2xl border-yellow-500/20 shadow-[0_0_20px_rgba(234,179,8,0.05)]">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Rollover Amount</p>
+                        <p className="font-black text-yellow-400 text-2xl sm:text-3xl">₹{(Number(drawSimResult.unspentRollover) || 0).toFixed(2)}</p>
+                        <p className="text-[10px] text-yellow-500/70 font-bold uppercase tracking-wider mt-2">Added to next month's pool</p>
+                      </div>
+                    </div>
+
+                    <div className="glass-card grid grid-cols-1 sm:grid-cols-3 gap-6 p-6 rounded-2xl border border-slate-700">
+                      <div className="text-center">
+                        <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners5}</h4>
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Jackpot Hits</p>
+                      </div>
+                      <div className="hidden sm:block w-px h-full bg-slate-700 mx-auto"></div>
+                      <div className="text-center">
+                        <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners4}</h4>
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 2 Matches</p>
+                      </div>
+                      <div className="hidden sm:block w-px h-full bg-slate-700 mx-auto"></div>
+                      <div className="text-center">
+                        <h4 className="text-2xl sm:text-3xl font-black text-white drop-shadow-md">{drawSimResult.summary.winners3}</h4>
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Tier 3 Matches</p>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -557,8 +571,8 @@ function AdminDashboard() {
                     {drawHistory.map((draw) => (
                       <div key={draw.id} className="border border-slate-700/50 bg-slate-900/40 p-5 sm:p-6 rounded-2xl hover:bg-slate-800/60 hover:border-slate-600 transition-colors group">
                         <div className="flex justify-between items-center border-b border-slate-700/50 pb-4 mb-4">
-                           <h3 className="font-extrabold text-white text-base sm:text-lg">{draw.draw_month} {draw.draw_year}</h3>
-                           <span className={`px-3 py-1 rounded-md text-[10px] font-black tracking-widest uppercase shadow-sm ${draw.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'}`}>{draw.status}</span>
+                          <h3 className="font-extrabold text-white text-base sm:text-lg">{draw.draw_month} {draw.draw_year}</h3>
+                          <span className={`px-3 py-1 rounded-md text-[10px] font-black tracking-widest uppercase shadow-sm ${draw.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'}`}>{draw.status}</span>
                         </div>
                         <div className="mb-6">
                           <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Winning Numbers</p>
@@ -569,8 +583,8 @@ function AdminDashboard() {
                           </div>
                         </div>
                         <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-800 shadow-inner flex justify-between items-center">
-                           <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Prize Pool</span>
-                           <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-lg sm:text-xl">₹{draw.prize_pools?.[0]?.total_pool || 0}</span>
+                          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Prize Pool</span>
+                          <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-lg sm:text-xl">₹{draw.prize_pools?.[0]?.total_pool || 0}</span>
                         </div>
                       </div>
                     ))}
@@ -637,7 +651,7 @@ function AdminDashboard() {
                           </div>
                           <p className="text-xs font-medium text-slate-400">{user.email}</p>
                         </div>
-                        <button 
+                        <button
                           onClick={() => {
                             if (user.role === 'user' || currentUser?.role === 'superadmin') {
                               handleToggleSubscription(user.id, user.subscription_status);
@@ -652,7 +666,7 @@ function AdminDashboard() {
                       </div>
                       <div className="space-y-3 mb-6 flex-1">
                         <p className="text-sm text-slate-300 flex justify-between items-center">
-                          <strong className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Access Level</strong> 
+                          <strong className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Access Level</strong>
                           <span className={`px-3 py-1 rounded-lg border uppercase tracking-widest text-[10px] font-bold ${user.role === 'superadmin' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' : user.role === 'admin' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-slate-950 border-slate-800 text-white'}`}>
                             {user.role === 'superadmin' ? 'Super Admin' : user.role === 'admin' ? 'Administrator' : 'Subscriber'}
                           </span>
@@ -710,12 +724,12 @@ function AdminDashboard() {
                         <p className="text-sm font-medium text-slate-400 mb-6">{winner.users?.email} • Distributed: {winner.draws?.draw_month} {winner.draws?.draw_year}</p>
                         <div className="grid grid-cols-2 gap-5 max-w-md mb-5">
                           <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-700/50 shadow-inner">
-                             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Prize Amount</p>
-                             <p className="font-black text-white text-xl">₹{winner.prize_amount?.toFixed(2)}</p>
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Prize Amount</p>
+                            <p className="font-black text-white text-xl">₹{winner.prize_amount?.toFixed(2)}</p>
                           </div>
                           <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-700/50 shadow-inner">
-                             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Verification Status</p>
-                             <p className={`font-black tracking-widest uppercase text-sm ${winner.verification_status === 'approved' ? 'text-emerald-400' : winner.verification_status === 'rejected' ? 'text-red-400' : 'text-yellow-400'}`}>{winner.verification_status}</p>
+                            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1.5">Verification Status</p>
+                            <p className={`font-black tracking-widest uppercase text-sm ${winner.verification_status === 'approved' ? 'text-emerald-400' : winner.verification_status === 'rejected' ? 'text-red-400' : 'text-yellow-400'}`}>{winner.verification_status}</p>
                           </div>
                         </div>
                         {winner.proof_url ? (
@@ -725,8 +739,8 @@ function AdminDashboard() {
                           </a>
                         ) : (
                           <p className="text-sm font-bold text-red-400/80 flex items-center gap-2 bg-red-500/5 rounded-lg px-4 py-2 border border-red-500/10 inline-flex">
-                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                             Awaiting Proof Document Upload
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            Awaiting Proof Document Upload
                           </p>
                         )}
                       </div>
@@ -761,11 +775,11 @@ function AdminDashboard() {
             <form onSubmit={handleCharitySubmit} className="p-6 space-y-5 relative z-10">
               <div>
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Charity Name</label>
-                <input type="text" required value={charityFormData.name} onChange={(e) => setCharityFormData({...charityFormData, name: e.target.value})} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 text-sm font-bold shadow-inner placeholder-slate-700" placeholder="e.g. Cancer Awareness Foundation" />
+                <input type="text" required value={charityFormData.name} onChange={(e) => setCharityFormData({ ...charityFormData, name: e.target.value })} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 text-sm font-bold shadow-inner placeholder-slate-700" placeholder="e.g. Cancer Awareness Foundation" />
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Description</label>
-                <textarea required rows={4} value={charityFormData.description} onChange={(e) => setCharityFormData({...charityFormData, description: e.target.value})} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 text-sm font-medium resize-none shadow-inner placeholder-slate-700" placeholder="Provide a summary of their mission..."></textarea>
+                <textarea required rows={4} value={charityFormData.description} onChange={(e) => setCharityFormData({ ...charityFormData, description: e.target.value })} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 text-sm font-medium resize-none shadow-inner placeholder-slate-700" placeholder="Provide a summary of their mission..."></textarea>
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Display Logo (Optional)</label>
@@ -776,7 +790,7 @@ function AdminDashboard() {
                       <p className="text-sm font-bold text-slate-400">Click to upload <span className="font-normal text-slate-500">or drag and drop</span></p>
                       <p className="text-xs text-slate-600 mt-1 font-medium">{charityFormData.image ? charityFormData.image.name : "PNG, JPG up to 5MB"}</p>
                     </div>
-                    <input type="file" className="hidden" accept="image/*" onChange={(e) => setCharityFormData({...charityFormData, image: e.target.files[0]})} />
+                    <input type="file" className="hidden" accept="image/*" onChange={(e) => setCharityFormData({ ...charityFormData, image: e.target.files[0] })} />
                   </label>
                 </div>
               </div>
@@ -786,7 +800,7 @@ function AdminDashboard() {
                   <p className="text-xs text-slate-500 font-medium">Mark as a featured charity on the site.</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" id="featuredCheck" className="sr-only peer" checked={charityFormData.featured} onChange={(e) => setCharityFormData({...charityFormData, featured: e.target.checked})} />
+                  <input type="checkbox" id="featuredCheck" className="sr-only peer" checked={charityFormData.featured} onChange={(e) => setCharityFormData({ ...charityFormData, featured: e.target.checked })} />
                   <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
                 </label>
               </div>
@@ -802,21 +816,21 @@ function AdminDashboard() {
       )}
 
       {/* Deep User Management Modals */}
-      <EditUserModal 
-        isOpen={showUserModal} 
-        onClose={() => setShowUserModal(false)} 
-        formData={userFormData} 
-        setFormData={setUserFormData} 
-        onSubmit={handleUpdateUserProfile} 
-        loading={loadingAdminAction} 
+      <EditUserModal
+        isOpen={showUserModal}
+        onClose={() => setShowUserModal(false)}
+        formData={userFormData}
+        setFormData={setUserFormData}
+        onSubmit={handleUpdateUserProfile}
+        loading={loadingAdminAction}
       />
-      <ManageScoresModal 
-        isOpen={showScoresModal} 
-        onClose={() => setShowScoresModal(false)} 
-        user={selectedUser} 
-        scores={userScores} 
-        onDelete={handleDeleteScore} 
-        onUpdate={handleUpdateScore} 
+      <ManageScoresModal
+        isOpen={showScoresModal}
+        onClose={() => setShowScoresModal(false)}
+        user={selectedUser}
+        scores={userScores}
+        onDelete={handleDeleteScore}
+        onUpdate={handleUpdateScore}
         onRefresh={() => fetchUserScores(selectedUser.id)}
       />
     </div>
@@ -837,11 +851,11 @@ function EditUserModal({ isOpen, onClose, formData, setFormData, onSubmit, loadi
         <form onSubmit={onSubmit} className="p-6 space-y-4">
           <div>
             <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Full Name</label>
-            <input type="text" value={formData.full_name} onChange={(e) => setFormData({...formData, full_name: e.target.value})} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm" required />
+            <input type="text" value={formData.full_name} onChange={(e) => setFormData({ ...formData, full_name: e.target.value })} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm" required />
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Email Address</label>
-            <input type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm" required />
+            <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full bg-slate-950 border border-slate-700 text-white rounded-xl px-4 py-3 text-sm" required />
           </div>
           <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black py-3.5 rounded-xl uppercase tracking-wider text-sm disabled:opacity-50">
             {loading ? "Saving..." : "Save Changes"}
@@ -894,33 +908,33 @@ function ManageScoresModal({ isOpen, onClose, user, scores, onDelete, onUpdate, 
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
         </div>
-        
+
         <div className="p-6 overflow-y-auto space-y-4 flex-1">
           {/* Section 10: Manual Score Entry Form */}
           <div className="bg-emerald-500/5 border border-emerald-500/20 p-5 rounded-xl mb-6">
-             <h4 className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] mb-4">Manual Entry (Verification Required)</h4>
-             <form onSubmit={handleAdd} className="flex flex-col sm:flex-row gap-3">
-               <input 
-                 type="number" 
-                 placeholder="Score (1-45)" 
-                 value={newScore}
-                 onChange={(e) => setNewScore(e.target.value)}
-                 className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-lg px-4 py-2 text-sm font-bold shadow-inner"
-               />
-               <input 
-                 type="date" 
-                 value={newDate}
-                 onChange={(e) => setNewDate(e.target.value)}
-                 className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-lg px-4 py-2 text-sm font-bold shadow-inner"
-               />
-               <button 
-                 type="submit" 
-                 disabled={adding}
-                 className="bg-emerald-500 text-slate-950 px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg disabled:opacity-50"
-               >
-                 {adding ? "Saving..." : "Record"}
-               </button>
-             </form>
+            <h4 className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em] mb-4">Manual Entry (Verification Required)</h4>
+            <form onSubmit={handleAdd} className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="number"
+                placeholder="Score (1-45)"
+                value={newScore}
+                onChange={(e) => setNewScore(e.target.value)}
+                className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-lg px-4 py-2 text-sm font-bold shadow-inner"
+              />
+              <input
+                type="date"
+                value={newDate}
+                onChange={(e) => setNewDate(e.target.value)}
+                className="flex-1 bg-slate-950 border border-slate-800 text-white rounded-lg px-4 py-2 text-sm font-bold shadow-inner"
+              />
+              <button
+                type="submit"
+                disabled={adding}
+                className="bg-emerald-500 text-slate-950 px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg disabled:opacity-50"
+              >
+                {adding ? "Saving..." : "Record"}
+              </button>
+            </form>
           </div>
 
           <div className="space-y-4">
@@ -935,11 +949,11 @@ function ManageScoresModal({ isOpen, onClose, user, scores, onDelete, onUpdate, 
                     </div>
                     <div>
                       <p className="text-white font-bold text-sm">Played on {new Date(s.played_at).toLocaleDateString()}</p>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-widest font-black mt-1">Sequence ID: {s.id.slice(0,8)}</p>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-widest font-black mt-1">Sequence ID: {s.id.slice(0, 8)}</p>
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <button 
+                    <button
                       onClick={() => {
                         const val = prompt("Enter new score (1-45):", s.score);
                         if (val && !isNaN(val)) onUpdate(s.id, val);
