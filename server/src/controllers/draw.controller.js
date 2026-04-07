@@ -2,33 +2,65 @@ import supabase from "../config/supabase.js";
 import notificationService from "../services/notification.service.js";
 
 const calculatePrizePool = async () => {
+  // 1. Fetch featured charity for users with no selection (Impact Disabled)
+  const { data: featuredCharity } = await supabase
+    .from("charities")
+    .select("id")
+    .eq("featured", true)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  // 2. Fetch all active subscriptions with user's charity preferences
+  // This join ensures we get the charity_percentage and charity_id for each payer
   const { data: activeSubs, error } = await supabase
     .from("subscriptions")
-    .select("amount")
+    .select(`
+      amount,
+      user_id,
+      users:user_id (
+        charity_id,
+        charity_percentage
+      )
+    `)
     .eq("status", "active");
 
   if (error) {
     throw new Error(error.message);
   }
 
-  const totalPool = activeSubs.reduce((sum, sub) => sum + Number(sub.amount || 0), 0);
-  
+  // 3. Calculate the cumulative Net Pool (Total Revenue - Charity Deductions)
+  const totalNetRevenue = activeSubs.reduce((sum, sub) => {
+    const amount = Number(sub.amount || 0);
+    // User's specific choice or the 10% compulsory minimum
+    const userCharityId = sub.users?.charity_id;
+    const userPercent = sub.users?.charity_percentage;
+
+    // Logic: If user has a charity selected, use their percentage. 
+    // If not (Impact Disabled), use the 10% minimum.
+    const effectivePercent = userCharityId ? (userPercent || 10) : 10;
+    const netForPrizePool = amount * (1 - (effectivePercent / 100));
+    
+    return sum + netForPrizePool;
+  }, 0);
+
   // Fetch previous draw's rollover if it exists
   const { data: prevPool } = await supabase
     .from("prize_pools")
     .select("rollover_amount")
     .order("created_at", { ascending: false })
     .limit(1)
-    .single();
+    .maybeSingle();
 
   const rollover = prevPool?.rollover_amount ? Number(prevPool.rollover_amount) : 0;
+  const totalPool = totalNetRevenue + rollover;
 
   return {
-    totalPool: totalPool + rollover,
-    basePool: totalPool,
-    pool5: Number((totalPool * 0.4).toFixed(2)) + rollover,
-    pool4: Number((totalPool * 0.35).toFixed(2)),
-    pool3: Number((totalPool * 0.25).toFixed(2)),
+    totalPool: Number(totalPool.toFixed(2)),
+    basePool: Number(totalNetRevenue.toFixed(2)),
+    pool5: Number((totalNetRevenue * 0.4).toFixed(2)) + rollover,
+    pool4: Number((totalNetRevenue * 0.35).toFixed(2)),
+    pool3: Number((totalNetRevenue * 0.25).toFixed(2)),
     rolloverApplied: rollover
   };
 };
@@ -101,7 +133,7 @@ export const runDraw = async (req, res) => {
     // get all users
     const { data: users } = await supabase
       .from("users")
-      .select("id, full_name, email");
+      .select("id, full_name, email, charity_id, charity_percentage");
 
     const results = [];
     const winners5 = [];
