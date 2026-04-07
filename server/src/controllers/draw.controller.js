@@ -311,15 +311,10 @@ export const getDrawHistory = async (req, res) => {
     const { data: draws, error } = await supabase
       .from("draws")
       .select(`
-        id,
-        draw_month,
-        draw_year,
-        winning_numbers,
-        status,
-        created_at
+        *,
+        prize_pools (*)
       `)
-      .order("created_at", { ascending: false })
-      .limit(5);
+      .order("created_at", { ascending: false });
 
     if (error) {
       return res.status(500).json({ message: error.message });
