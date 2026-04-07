@@ -325,3 +325,41 @@ export const getWinners = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const resetCurrentDraw = async (req, res) => {
+  try {
+    const now = new Date();
+    const currentMonth = now.toLocaleString("default", { month: "long" });
+    const currentYear = now.getFullYear();
+
+    // 1. Find the published draw for this month
+    const { data: draw, error: fetchError } = await supabase
+      .from("draws")
+      .select("id")
+      .eq("draw_month", currentMonth)
+      .eq("draw_year", currentYear)
+      .maybeSingle();
+
+    if (fetchError) throw new Error(fetchError.message);
+    if (!draw) {
+      return res.status(404).json({ message: `No published draw found for ${currentMonth} ${currentYear} to reset.` });
+    }
+
+    // 2. Clear winners (FK draw_id)
+    const { error: winError } = await supabase.from("winners").delete().eq("draw_id", draw.id);
+    if (winError) throw new Error(winError.message);
+
+    // 3. Clear prize pools (FK draw_id)
+    const { error: poolError } = await supabase.from("prize_pools").delete().eq("draw_id", draw.id);
+    if (poolError) throw new Error(poolError.message);
+
+    // 4. Clear the draw record itself
+    const { error: drawError } = await supabase.from("draws").delete().eq("id", draw.id);
+    if (drawError) throw new Error(drawError.message);
+
+    return res.status(200).json({ message: `Draw for ${currentMonth} ${currentYear} has been successfully reset.` });
+
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

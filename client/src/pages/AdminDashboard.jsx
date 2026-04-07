@@ -105,6 +105,27 @@ function AdminDashboard() {
     }
   };
 
+  const [loadingReset, setLoadingReset] = useState(false);
+  const handleResetDraw = async () => {
+    if (!window.confirm("CRITICAL ACTION: This will permanently delete this month's official draw, winners list, and prize pool. This cannot be undone. Proceed?")) return;
+    
+    try {
+      setLoadingReset(true);
+      const token = localStorage.getItem("token");
+      await api.delete("/draw/reset-current", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success("Current month reset successfully. You can now re-run the official draw.");
+      fetchDrawHistory();
+      fetchWinnerRequests();
+      fetchAnalytics();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Reset failed");
+    } finally {
+      setLoadingReset(false);
+    }
+  };
+
   const handleVerify = async (winnerId, status) => {
     try {
       const token = localStorage.getItem("token");
@@ -511,6 +532,19 @@ function AdminDashboard() {
                         Publish Officially
                       </button>
                     )}
+                    {!drawSimResult && drawHistory.some(d => {
+                        const now = new Date();
+                        return d.draw_month === now.toLocaleString("default", { month: "long" }) && 
+                               d.draw_year === now.getFullYear();
+                     }) && (
+                        <button
+                          onClick={handleResetDraw}
+                          disabled={loadingReset}
+                          className="bg-red-500/10 border border-red-500/20 text-red-500 px-8 py-3 rounded-xl font-bold hover:bg-red-500 hover:text-white transition-all shadow-inner"
+                        >
+                          {loadingReset ? "Resetting..." : "Reset Monthly Draw"}
+                        </button>
+                     )}
                   </div>
                 </div>
 
