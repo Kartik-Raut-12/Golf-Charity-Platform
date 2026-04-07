@@ -188,7 +188,7 @@ export const getAdminAnalytics = async (req, res) => {
 
     const { data: subData, error: subError } = await supabase
       .from("subscriptions")
-      .select("amount, user_id, draw_id");
+      .select("amount, user_id, status");
 
     if (subError) return res.status(500).json({ message: subError.message });
 
@@ -205,8 +205,8 @@ export const getAdminAnalytics = async (req, res) => {
       
       totalCharityContribution += (amount * (charityPercent / 100));
 
-      // MATCH DRAW ENGINE LOGIC: Only Active Users with Active Subscriptions (not yet assigned to a draw)
-      if (!sub.draw_id && user?.subscription_status === 'active') {
+      // MATCH DRAW ENGINE LOGIC: Only Active Users with Active Subscriptions
+      if (sub.status === 'active' && user?.subscription_status === 'active') {
         currentMonthNetPot += (amount * (1 - (charityPercent / 100)));
       }
     });
