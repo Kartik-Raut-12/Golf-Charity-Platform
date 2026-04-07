@@ -32,13 +32,13 @@ function Home() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none" />
 
       {/* 1. HERO SECTION */}
-      <section className="relative px-6 pt-32 pb-20 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 z-10">
+      <section className="relative px-6 pt-16 lg:pt-8 pb-12 lg:min-h-[calc(100vh-80px)] max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-16 z-10">
         <div className="flex-1 text-center lg:text-left">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full mb-8"
+            className="inline-flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full mb-6"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-[10px] font-black tracking-[0.2em] text-emerald-400 uppercase">Premium Golf Ecosystem v2.0</span>
@@ -48,7 +48,7 @@ function Home() {
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", damping: 20, stiffness: 100 }}
-            className="text-5xl sm:text-7xl md:text-8xl font-black tracking-tighter text-white mb-8 leading-[0.95] text-glow"
+            className="text-5xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tighter text-white mb-6 leading-[0.95] text-glow"
           >
             Play for a <br />
             <span className="neon-text-gradient italic">Higher Cause.</span>
@@ -58,7 +58,7 @@ function Home() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-400 max-w-xl mb-12 leading-relaxed font-medium"
+            className="text-lg md:text-xl text-slate-400 max-w-xl mb-8 mx-auto lg:mx-0 leading-relaxed font-medium"
           >
             The world's first luxury performance platform that rewards your golf skills while funding global charities.
           </motion.p>
@@ -67,19 +67,19 @@ function Home() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start"
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
           >
             {!isLoggedIn ? (
               <>
                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:shadow-[0_0_40px_rgba(16,185,129,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center"
+                  className="bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 px-8 py-3.5 rounded-2xl font-black text-sm uppercase tracking-widest hover:shadow-[0_0_40px_rgba(16,185,129,0.4)] hover:scale-105 transition-all duration-300 flex items-center justify-center"
                 >
                   Join the Circle
                 </Link>
                 <Link
                   to="/login"
-                  className="px-10 py-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 transition-all font-black text-sm uppercase tracking-widest flex items-center justify-center"
+                  className="px-8 py-3.5 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 transition-all font-black text-sm uppercase tracking-widest flex items-center justify-center"
                 >
                   Member Access
                 </Link>
@@ -87,7 +87,7 @@ function Home() {
             ) : (
               <Link
                 to={isSubscribed ? "/dashboard" : "/subscribe"}
-                className="bg-white text-slate-950 px-12 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:scale-105 transition-all duration-300"
+                className="bg-white text-slate-950 px-10 py-3.5 rounded-2xl font-black text-sm uppercase tracking-widest hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:scale-105 transition-all duration-300"
               >
                 {isSubscribed ? "Go to Dashboard" : "Get Activated"}
               </Link>
@@ -99,7 +99,7 @@ function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="mt-16 flex flex-wrap justify-center lg:justify-start gap-12 border-t border-white/5 pt-8"
+            className="mt-10 flex flex-wrap justify-center lg:justify-start gap-10 border-t border-white/5 pt-6"
           >
             <div className="flex flex-col">
               <span className="text-2xl font-black text-white">₹50L+</span>
