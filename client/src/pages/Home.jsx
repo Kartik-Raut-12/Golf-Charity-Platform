@@ -198,7 +198,7 @@ function Home() {
       </section>
 
       {/* 2. THE ECOSYSTEM (WHY GOLF?) */}
-      <section id="ecosystem" className="pt-10 pb-16 px-6 scroll-mt-16 max-w-7xl mx-auto relative z-10">
+      <section id="ecosystem" className="pt-16 pb-16 px-6 scroll-mt-24 max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-12">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -257,7 +257,7 @@ function Home() {
       </section>
 
       {/* CHARITABLE IMPACT SECTION */}
-      <section id="impact" className="py-24 px-6 scroll-mt-20 max-w-7xl mx-auto relative z-10">
+      <section id="impact" className="pt-16 pb-24 px-6 scroll-mt-24 max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
           <div className="flex-1 text-left">
             <motion.h2 
@@ -401,7 +401,7 @@ function Home() {
         </div>
       </section>
       {/* PRIZE POOL TIERS SECTION */}
-      <section id="prizes" className="pt-10 pb-24 px-6 scroll-mt-12 max-w-6xl mx-auto relative z-10">
+      <section id="prizes" className="pt-16 pb-24 px-6 scroll-mt-24 max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-black text-white mb-6 uppercase tracking-tight relative inline-block">
             Prize Pool <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Tiers</span>
