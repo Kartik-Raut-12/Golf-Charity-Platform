@@ -194,6 +194,7 @@ export const getAdminAnalytics = async (req, res) => {
 
     let totalRevenue = 0;
     let totalCharityContribution = 0;
+    let currentMonthNetPot = 0;
 
     subData.forEach((sub) => {
       const amount = Number(sub.amount || 0);
@@ -203,6 +204,11 @@ export const getAdminAnalytics = async (req, res) => {
       const charityPercent = user?.charity_percentage || 10;
       
       totalCharityContribution += (amount * (charityPercent / 100));
+
+      // Calculate what this user contributes to the UPCOMING draw's pool
+      if (user?.subscription_status === 'active') {
+        currentMonthNetPot += (amount * (1 - (charityPercent / 100)));
+      }
     });
 
     const { data: poolData, error: poolError } = await supabase
@@ -215,11 +221,13 @@ export const getAdminAnalytics = async (req, res) => {
     const totalPrizePool = poolData.reduce((sum, p) => sum + Number(p.total_pool || 0), 0);
     const currentRollover = poolData.length > 0 ? Number(poolData[0].rollover_amount || 0) : 0;
 
+    // The "Total Prize Pool" as per PRD (Current Pool + Rollover)
+    const currentPrizePool = currentMonthNetPot + currentRollover;
+
     return res.status(200).json({
       totalUsers,
       activeUsers,
-      totalRevenue: Number(totalRevenue.toFixed(2)),
-      totalPrizePool: Number(totalPrizePool.toFixed(2)),
+      currentPrizePool: Number(currentPrizePool.toFixed(2)),
       totalCharityContribution: Number(totalCharityContribution.toFixed(2)),
       currentRollover: Number(currentRollover.toFixed(2)),
     });

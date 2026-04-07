@@ -410,46 +410,51 @@ function AdminDashboard() {
               <h2 className="text-2xl font-bold mb-6 text-white tracking-tight">Platform Analytics</h2>
               {stats && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                  {/* PRD Entry 1: Total Users */}
                   <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-blue-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-blue-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Total Revenue</p>
-                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-sm md:text-lg text-blue-400">₹</span>{stats.totalRevenue?.toLocaleString()}
-                    </p>
+                    <p className="text-blue-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-3">Total Users</p>
+                    <div className="flex items-baseline gap-2">
+                      <p className="font-black text-2xl md:text-3xl text-white tracking-tighter">
+                        {stats.totalUsers}
+                      </p>
+                      <p className="text-blue-400/60 font-bold text-[10px] uppercase">
+                        ({stats.activeUsers} Active)
+                      </p>
+                    </div>
                   </div>
-                  <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-emerald-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-emerald-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Total Donated</p>
-                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-sm md:text-lg text-emerald-400">₹</span>{stats.totalCharityContribution?.toLocaleString()}
-                    </p>
-                  </div>
+
+                  {/* PRD Entry 2: Total Prize Pool (Current) */}
                   <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-cyan-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-cyan-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Total Paid Winnings</p>
-                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-sm md:text-lg text-cyan-400">₹</span>{stats.totalPrizePool?.toLocaleString()}
+                    <p className="text-cyan-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-3">Total Prize Pool</p>
+                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1 tracking-tighter">
+                      <span className="text-sm md:text-lg text-cyan-400 font-bold">₹</span>{stats.currentPrizePool?.toLocaleString()}
                     </p>
                   </div>
-                  <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-slate-500/50 hover:-translate-y-1 transition-transform cursor-default">
-                    <p className="text-slate-500 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Active Users</p>
-                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-emerald-400">{stats.activeUsers}</span>
-                      <span className="text-slate-600 text-xl font-medium mx-1">/</span>
-                      <span className="text-slate-500 text-xl md:text-2xl">{stats.totalUsers}</span>
+
+                  {/* PRD Entry 3: Charity Contribution Totals */}
+                  <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-emerald-500/50 hover:-translate-y-1 transition-transform cursor-default">
+                    <p className="text-emerald-400/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-3">Charity Contribution Totals</p>
+                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1 tracking-tighter">
+                      <span className="text-sm md:text-lg text-emerald-400 font-bold">₹</span>{stats.totalCharityContribution?.toLocaleString()}
                     </p>
                   </div>
+
+                  {/* NEW ENTRY: Current Rollover Amount */}
                   <div className="glass-panel p-6 rounded-2xl border-t-2 border-t-yellow-500/50 hover:-translate-y-1 transition-transform cursor-default bg-yellow-500/5">
-                    <p className="text-yellow-500/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-2">Current Rollover Ledger</p>
-                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1">
-                      <span className="text-sm md:text-lg text-yellow-500">₹</span>{stats.currentRollover?.toLocaleString()}
+                    <p className="text-yellow-500/80 text-[10px] md:text-xs font-black uppercase tracking-widest mb-3">Current Rollover Ledger</p>
+                    <p className="font-black text-2xl md:text-3xl text-white flex items-baseline gap-1 tracking-tighter">
+                      <span className="text-sm md:text-lg text-yellow-500 font-bold">₹</span>{stats.currentRollover?.toLocaleString()}
                     </p>
+                    <p className="text-[10px] text-yellow-500/40 font-bold uppercase tracking-widest mt-1">Jackpot Only</p>
                   </div>
                 </div>
               )}
 
-              {/* Section 11: Draw Insights & Participation Board */}
+              {/* PRD Entry 4: Draw Statistics (participation board) */}
               <div className="mt-12 space-y-6">
                 <h3 className="text-lg font-black text-white uppercase tracking-widest flex items-center gap-2">
                   <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                  Draw Participation Insights
+                  Draw Statistics
                 </h3>
 
                 <div className="grid lg:grid-cols-3 gap-6">
