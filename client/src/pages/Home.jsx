@@ -193,6 +193,103 @@ function Home() {
         </div>
       </section>
 
+      {/* CHARITABLE IMPACT SECTION */}
+      <section className="py-24 px-6 max-w-7xl mx-auto relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+          <div className="flex-1 text-left">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight leading-tight"
+            >
+              Transparent <br />
+              <span className="text-emerald-400">Charitable Impact</span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-slate-400 text-lg mb-6 leading-relaxed font-medium"
+            >
+              When you subscribe, you aren't just playing for yourself. You select exactly which verified charity receives your dedicated contribution.
+            </motion.p>
+            <motion.p 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-slate-400 text-lg mb-10 leading-relaxed font-medium"
+            >
+              Watch the global impact meters fill up in real time as our community drives thousands of rupees directly to front-line causes.
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <Link to="/charities" className="inline-block px-8 py-3 rounded-xl border border-slate-700 bg-slate-900/50 hover:bg-slate-800 text-white font-bold text-sm transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+                Join the Mission
+              </Link>
+            </motion.div>
+          </div>
+
+          <div className="flex-1 w-full max-w-xl flex flex-col gap-5">
+            {/* Charity Bar 1 */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-[#0b0e17] border border-slate-800/60 rounded-2xl p-6"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-white font-bold text-sm">Cancer Research</span>
+                <span className="text-blue-400 font-black text-sm">₹34,200</span>
+              </div>
+              <div className="h-2 w-full bg-slate-800/50 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-600 to-blue-400 w-[70%] rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+              </div>
+            </motion.div>
+
+            {/* Charity Bar 2 */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-[#0b0e17] border border-slate-800/60 rounded-2xl p-6"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-white font-bold text-sm">Help for Heroes</span>
+                <span className="text-purple-400 font-black text-sm">₹28,500</span>
+              </div>
+              <div className="h-2 w-full bg-slate-800/50 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-purple-600 to-purple-400 w-[55%] rounded-full shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
+              </div>
+            </motion.div>
+
+            {/* Charity Bar 3 */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-[#0b0e17] border border-slate-800/60 rounded-2xl p-6"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-white font-bold text-sm">Macmillan Cancer Support</span>
+                <span className="text-emerald-400 font-black text-sm">₹21,800</span>
+              </div>
+              <div className="h-2 w-full bg-slate-800/50 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 w-[40%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* PRIZE POOL TIERS SECTION */}
       <section className="py-24 px-6 max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-20">
