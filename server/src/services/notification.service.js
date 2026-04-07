@@ -27,7 +27,7 @@ class NotificationService {
           <h2 style="margin: 10px 0; color: #0f172a; font-size: 32px;">₹${prizeAmount.toLocaleString()}</h2>
         </div>
         <p style="font-size: 14px; color: #64748b; margin-top: 20px;">
-          To claim your prize, please login to your dashboard and upload your payment proof (Stripe receipt or ID verification) for our admins to review.
+          To claim your prize, please login to your dashboard and upload your payment proof (Screenshot of scores from the golf platform)for our admins to review.
         </p>
         <div style="text-align: center; margin-top: 30px;">
           <a href="${process.env.CLIENT_URL}/dashboard" style="background-color: #10b981; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Go to Dashboard</a>

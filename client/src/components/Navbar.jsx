@@ -29,14 +29,31 @@ function Navbar() {
     navigate("/login");
   };
 
-  const isActive = (path) => location.pathname === path 
-     ? "text-emerald-400 font-bold drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]" 
-     : "text-slate-200 hover:text-white transition-colors hover:glow";
+  const isActive = (path) => {
+    if (path.includes("#")) {
+      const [p, h] = path.split("#");
+      const normalizedPath = p === "" ? "/" : p;
+      return location.pathname === normalizedPath && location.hash === "#" + h;
+    }
+    return location.pathname === path && !location.hash;
+  };
 
-  const publicLinks = [
-    { to: "/", label: "Home" },
-    { to: "/charities", label: "Charities" }
-  ];
+  const activeStyles = "text-emerald-400 font-bold drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]";
+  const inactiveStyles = "text-slate-200 hover:text-white transition-colors hover:glow";
+
+  const publicLinks = token 
+    ? [
+        { to: "/#home", label: "Home" },
+        { to: "/charities", label: "Charities" }
+      ]
+    : [
+        { to: "/#home", label: "Home" },
+        { to: "/#ecosystem", label: "Ecosystem" },
+        { to: "/#impact", label: "Impact" },
+        { to: "/#prizes", label: "Prizes" },
+        { to: "/#faq", label: "FAQ" },
+        { to: "/charities", label: "Charities" }
+      ];
 
   const authLinks = token ? [
     { to: "/dashboard", label: "Dashboard" },
@@ -50,7 +67,7 @@ function Navbar() {
   return (
     <>
       <nav className="flex items-center justify-between px-4 md:px-8 py-4 border-b border-slate-800/60 bg-slate-950 sticky top-0 z-[100] shadow-2xl backdrop-blur-md w-full">
-        <Link to="/" className="text-xl font-extrabold tracking-tight text-white group flex items-center gap-2 relative z-[200]">
+        <Link to="/#home" className="text-xl font-extrabold tracking-tight text-white group flex items-center gap-2 relative z-[200]">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-cyan-500 shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center text-white transition-transform group-hover:scale-110">
              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           </div>
@@ -61,7 +78,7 @@ function Navbar() {
         {/* Desktop Nav Links (Centered) */}
         <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 gap-8 text-sm items-center font-bold tracking-wider uppercase">
           {allLinks.map((link) => (
-            <Link key={link.to} to={link.to} className={isActive(link.to)}>{link.label}</Link>
+            <Link key={link.to} to={link.to} className={isActive(link.to) ? activeStyles : inactiveStyles}>{link.label}</Link>
           ))}
         </div>
 
@@ -150,7 +167,7 @@ function Navbar() {
                   >
                     <Link 
                       to={link.to} 
-                      className={`text-4xl font-black tracking-tight block py-1 ${location.pathname === link.to ? 'text-emerald-400' : 'text-white'}`}
+                      className={`text-4xl font-black tracking-tight block py-1 ${isActive(link.to) ? 'text-emerald-400' : 'text-white'}`}
                     >
                       {link.label}
                     </Link>

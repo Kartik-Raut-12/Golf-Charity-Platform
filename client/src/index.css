@@ -29,7 +29,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-200 antialiased selection:bg-emerald-500/30 selection:text-emerald-200;
+    @apply bg-slate-950 text-slate-200 antialiased selection:bg-emerald-500/30 selection:text-emerald-200 overflow-x-hidden;
   }
   button:not(:disabled) {
     cursor: pointer;
